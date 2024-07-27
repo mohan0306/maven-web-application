@@ -14,6 +14,8 @@ pipeline {
         REMOTE_HOST = '172.31.24.48'
         REMOTE_TOMCAT_DIR = '/home/ec2-user/apache-tomcat-9.0.91/webapps'
         PEM_KEY_PATH = '/home/jenkins/Linux_DevOps.pem'  // Path to PEM key on Jenkins server
+        S3_BUCKET_NAME = 'maven-buid-version'
+        AWS_REGION = 'ap-south-1'
     }
     
     stages {
@@ -27,7 +29,7 @@ pipeline {
 
         stage('Continuous Build') {
             steps {
-                echo 'Cheking version of Maven'
+                echo 'Checking version of Maven'
                 sh 'mvn --version'
                 echo 'Starting build process using Maven'
                 sh 'mvn clean install'
@@ -46,6 +48,19 @@ pipeline {
                 // Backup WAR file
                 sh "cp ${WAR_FILE_PATH} ${BACKUP_DIR}"
                 echo 'Build successfully uploaded/backed up'
+            }
+        }
+
+        stage('Upload to S3') {
+            steps {
+                echo 'Uploading build artifact to S3'
+
+                // Upload WAR file to S3
+                sh """
+                    aws s3 cp ${WAR_FILE_PATH} s3://${S3_BUCKET_NAME}/maven-web-application-#${currentBuild.number}.war --region ${AWS_REGION}
+                """
+
+                echo 'Build artifact successfully uploaded to S3'
             }
         }
 
