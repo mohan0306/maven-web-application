@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Continuous Download') {
             steps {
-                echo 'Downloading source code from GitHub...'
+                echo 'Downloading source code from GitHub'
                 git env.GIT_REPO_URL
                 echo 'Source code downloaded successfully.'
             }
@@ -27,36 +27,38 @@ pipeline {
 
         stage('Continuous Build') {
             steps {
-                echo 'Starting build process using Maven...'
+                echo 'Cheking version of Maven'
+                sh 'mvn --version'
+                echo 'Starting build process using Maven'
                 sh 'mvn clean install'
-                echo 'Build process successfully completed.'
+                echo 'Build process successfully completed'
             }
         }
 
         stage('Continuous Upload/Backup') {
             steps {
-                echo 'Uploading and backing up the WAR file locally and to the backup repository...'
+                echo 'Uploading and backing up the WAR file locally and to the backup repository'
 
                 // Deploy to local Tomcat
                 sh "cp ${WAR_FILE_PATH} ${LOCAL_TOMCAT_DIR}"
-                echo 'Build successfully deployed to local Tomcat.'
+                echo 'Build successfully deployed to local Tomcat'
 
                 // Backup WAR file
                 sh "cp ${WAR_FILE_PATH} ${BACKUP_DIR}"
-                echo 'Build successfully uploaded/backed up.'
+                echo 'Build successfully uploaded/backed up'
             }
         }
 
         stage('Continuous Delivery on Webserver') {
             steps {
-                echo 'Starting production deployment...'
+                echo 'Starting production deployment'
 
                 // Use PEM key for SCP transfer to the remote server
                 sh """
                     scp -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
                 """
 
-                echo 'Current build is deployed to production successfully.'
+                echo 'Current build is deployed to production successfully'
             }
         }
     }
