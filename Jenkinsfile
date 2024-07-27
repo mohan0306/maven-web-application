@@ -13,7 +13,7 @@ pipeline {
         REMOTE_USER = 'ec2-user'
         REMOTE_HOST = '172.31.24.48'
         REMOTE_TOMCAT_DIR = '/home/ec2-user/apache-tomcat-9.0.91/webapps'
-        PEM_KEY_PATH = '/home/jenkins/.ssh/my-key.pem'  // Path to PEM key on Jenkins server
+        PEM_KEY_PATH = '/home/jenkins/Linux_DevOps.pem'  // Path to PEM key on Jenkins server
     }
     
     stages {
