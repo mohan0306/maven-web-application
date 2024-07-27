@@ -83,8 +83,9 @@ pipeline {
 
                 // Restart Tomcat on the remote server
                 sh """
-                    ssh -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'sudo systemctl restart tomcat'
+                    ssh -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'sudo /etc/init.d/tomcat restart'
                 """
+
 
                 echo 'Tomcat successfully restarted'
             }
