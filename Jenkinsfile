@@ -76,19 +76,5 @@ pipeline {
                 echo 'Current build is deployed to production successfully'
             }
         }
-
-        stage('Restart Tomcat') {
-            steps {
-                echo 'Restarting Tomcat on the remote server'
-
-                // Restart Tomcat on the remote server
-                sh """
-                    ssh -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${REMOTE_USER}@${REMOTE_HOST} 'sudo /etc/init.d/tomcat restart'
-                """
-
-
-                echo 'Tomcat successfully restarted'
-            }
-        }
     }
 }
