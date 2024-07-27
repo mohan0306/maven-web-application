@@ -12,7 +12,7 @@ pipeline {
         BACKUP_DIR = '/mnt/Backup_snapshot'
         REMOTE_USER = 'ec2-user'
         REMOTE_HOST = '172.31.24.48'
-        REMOTE_TOMCAT_DIR = '/home/ec2-user/apache-tomcat-9.0.91/webapps'
+        REMOTE_TOMCAT_DIR = '/mnt/apache-tomcat-9.0.91/webapps'
         PEM_KEY_PATH = '/home/jenkins/Linux_DevOps.pem'  // Path to PEM key on Jenkins server
         S3_BUCKET_NAME = 'maven-buid-version'
         AWS_REGION = 'ap-south-1'
