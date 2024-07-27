@@ -29,8 +29,8 @@ pipeline{
         stage('continuous Deliver on Webserver') {
             steps {
                 echo 'production deployment'
-                sh 'ssh ec2-user@172.31.24.48'
-                echo 'ssh connection established successfull'
+                // sh 'ssh ec2-user@172.31.24.48'
+                // echo 'ssh connection established successfull'
                 sh 'scp /root/.jenkins/workspace/Java_project/target/maven-web-application.war ec2-user@172.31.24.48:/home/ec2-user/apache-tomcat-9.0.91/webapps'
                 echo 'current build is deployed to production'
             }
