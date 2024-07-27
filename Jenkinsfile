@@ -13,7 +13,7 @@ pipeline {
         REMOTE_USER = 'ec2-user'
         REMOTE_HOST = '172.31.24.48'
         REMOTE_TOMCAT_DIR = '/home/ec2-user/apache-tomcat-9.0.91/webapps'
-        SSH_KEY_CREDENTIAL_ID = 'your-ssh-key-credential-id'
+        PEM_KEY_PATH = '/home/jenkins/.ssh/my-key.pem'  // Path to PEM key on Jenkins server
     }
     
     stages {
@@ -51,14 +51,11 @@ pipeline {
             steps {
                 echo 'Starting production deployment...'
 
-                // Use SSH credentials for secure SCP transfer
-                sshagent([env.SSH_KEY_CREDENTIAL_ID]) {
-                    sh """
-                        // Copy WAR file to the remote server
-                        scp ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
-                    """
-                }
-                
+                // Use PEM key for SCP transfer to the remote server
+                sh """
+                    scp -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
+                """
+
                 echo 'Current build is deployed to production successfully.'
             }
         }
