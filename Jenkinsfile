@@ -64,17 +64,17 @@ pipeline {
             }
         }
 
-    //     stage('Continuous Delivery on Webserver') {
-    //         steps {
-    //             echo 'Starting production deployment'
+        stage('Continuous Delivery on Webserver') {
+            steps {
+                echo 'Starting production deployment'
 
-    //             // Use PEM key for SCP transfer to the remote server
-    //             sh """
-    //                 scp -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
-    //             """
+                // Use PEM key for SCP transfer to the remote server
+                sh """
+                    scp -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
+                """
 
-    //             echo 'Current build is deployed to production successfully'
-    //         }
-    //     }
+                echo 'Current build is deployed to production successfully'
+            }
+        }
     }
 }
