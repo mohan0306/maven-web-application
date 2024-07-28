@@ -64,7 +64,7 @@ pipeline {
             }
         }
 
-        stage('Continuous Delivery on Webserver') {
+        stage('Continuous Delivery on production') {
             steps {
                 echo 'Starting production deployment'
 
