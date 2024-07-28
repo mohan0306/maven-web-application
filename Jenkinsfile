@@ -51,30 +51,30 @@ pipeline {
             }
         }
 
-        stage('Upload to S3') {
-            steps {
-                echo 'Uploading build artifact to S3'
+        // stage('Upload to S3') {
+        //     steps {
+        //         echo 'Uploading build artifact to S3'
 
-                // Upload WAR file to S3
-                sh """
-                    aws s3 cp ${WAR_FILE_PATH} s3://${S3_BUCKET_NAME}/maven-web-application-#${currentBuild.number}.war --region ${AWS_REGION}
-                """
+        //         // Upload WAR file to S3
+        //         sh """
+        //             aws s3 cp ${WAR_FILE_PATH} s3://${S3_BUCKET_NAME}/maven-web-application-#${currentBuild.number}.war --region ${AWS_REGION}
+        //         """
 
-                echo 'Build artifact successfully uploaded to S3'
-            }
-        }
+        //         echo 'Build artifact successfully uploaded to S3'
+        //     }
+        // }
 
-        stage('Continuous Delivery on Webserver') {
-            steps {
-                echo 'Starting production deployment'
+    //     stage('Continuous Delivery on Webserver') {
+    //         steps {
+    //             echo 'Starting production deployment'
 
-                // Use PEM key for SCP transfer to the remote server
-                sh """
-                    scp -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
-                """
+    //             // Use PEM key for SCP transfer to the remote server
+    //             sh """
+    //                 scp -i ${PEM_KEY_PATH} -o StrictHostKeyChecking=no ${WAR_FILE_PATH} ${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_TOMCAT_DIR}
+    //             """
 
-                echo 'Current build is deployed to production successfully'
-            }
-        }
-    }
+    //             echo 'Current build is deployed to production successfully'
+    //         }
+    //     }
+    // }
 }
