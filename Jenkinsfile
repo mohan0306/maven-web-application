@@ -76,5 +76,5 @@ pipeline {
     //             echo 'Current build is deployed to production successfully'
     //         }
     //     }
-    // }
+    }
 }
